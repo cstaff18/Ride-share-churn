@@ -15,7 +15,9 @@ Steps:
 
 ___
 
-![image](https://github.com/tysonjens/tysonjens.github.io/blob/master/img/Predicted%20Churn.png?raw=true)
+
+<img alt="title slide" src="/figs/Predicted%20Churn.png" width='500'>
+
 
 
 
@@ -30,10 +32,10 @@ ___
  |           |predicted0 | predicted1(churn) |
  |---------- |---------- |----------- |
  |__actual0__   |  0 |  -10|
- |__actual1(churn)__   |  0| 20 (-10 + 100*.2)|
+ |__actual1(churn)__   |  0| 10  = (-10 + 100*.2)|
 
  * Assumes 20% retention rate with incentive
- * Customers are already churning, so if our algorithm misses a customer who is churning, there is "no harm done".  This leads us to look for a precise algorith - one that, when it predicts some is churning, it is generally correct.
+ * Customers are already churning, so if our algorithm misses a customer who is churning, there is "no harm done".  This leads us to look for a precise algorithm - one that, when it predicts some is churning, it is generally correct.
 
 __precision__ is our target score metric:
  * many people will churn - we don't care about getting all of them (for now). However, among riders we think are churning we want to predict correctly so we don't waste incentive funds.
@@ -49,7 +51,7 @@ pick by last active day
 
 *The fun stuff that marketers don't care about :-). We fit several classification models looking for ones that performed high with precision when applied to previously unseen test data.*
 
-|        model | methods | accuracy | precision |
+|        model | methods | test set accuracy | test set precision |
 |---------- |---------- |----------- | ----------|
 | logistic regression |  cross-val, cv=5 |  0.745| 0.734 |
 | knn | 50 neighbors | 0.786 | 0.753 |
@@ -76,31 +78,44 @@ pick by last active day
 
 ##### Feature Importances with Gradient Boost
 
-![image](https://github.com/tysonjens/tysonjens.github.io/blob/master/img/feature%20importance%20gb%20rf.png?raw=true)
+
+<img alt="relative importance combined" src="/figs/feature%20importance%20gb%20rf.png" width='500'>
+
 
 ##### Partial dependency plots from Gradient Boost
-![image](https://github.com/tysonjens/tysonjens.github.io/blob/master/img/partial_d_6.png?raw=true)
+
+<img alt="partial dependency GB" src="/figs/partial_d_6.png" width='500'>
 
 ___
 
-![image](https://github.com/tysonjens/tysonjens.github.io/blob/master/img/roc_6models.png?raw=true)
+
+<img alt="ROC curve" src="/figs/roc_6models.png" width='500'>
+
 
 *We chose the model that kept the lowest "False Positive Rate" for corresponding values of "True Positive Rate". This helps us find the model with the best precision, important for ensuring we identify customers that are actually churning.*
 
 ___
 
-![image](https://github.com/tysonjens/tysonjens.github.io/blob/master/img/Predicted%20Churn%20(1).png?raw=true)
+
+<img alt="churn threshold" src="/figs/Predicted%20Churn%20(1).png" width='500'>
+
+
 
 *Intuitively, customers drift toward "churning" as time since their last trip elapses, but they do so at different rates. Our model helps marketers determine when a particular customer reaches a specific "likelihood of churn" threshold.*
 
 ___
 
-![image](https://github.com/tysonjens/tysonjens.github.io/blob/master/img/Predicted%20Churn%20(2).png?raw=true)
+
+<img alt="experiment flowchart" src="/figs/Predicted%20Churn%20(2).png" width='500'>
+
 
 *A controlled experiment sorts customers into 3 groups each week. Once customers eclipse the 80% threshold, they are randomly placed into a test or control group.*
 
 ___
 
-![image](https://github.com/tysonjens/tysonjens.github.io/blob/master/img/Predicted%20Churn%20(3).png?raw=true)
+
+<img alt="model predictions" src="/figs/Predicted%20Churn%20(3).png" width='500'>
+
+
 
 *The design allows for testing the model's predictions, as well as whether the winback offer is effective. After testing test two hypotheses, we could adjust according to what we learn.*
